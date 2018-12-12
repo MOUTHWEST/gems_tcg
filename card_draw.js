@@ -1,8 +1,9 @@
 function draw_cards(){
 	let activecard = {name:'activecard'};
 	activecard.init = function(dict){
-		this.color = 'multi';
-		this.colors = {
+        this.colordict = ['red','pink','white','gray','black','bronze','orange','yellow','green','aqua','blue','violet','multi'];
+		this.color = 0;
+		this.colorlist = {
 			red: [[255,0,0],[120,0,0],[255,30,30]],
 			pink: [[255,160,160],[200,60,120],[255,190,190]],
 			white: [[240,240,240],[150,150,170],[255,255,255]],
@@ -16,7 +17,8 @@ function draw_cards(){
 			blue: [[50,50,255],[30,0,100],[100,140,255]],
 			violet: [[160,40,200],[120,20,180],[255,100,200]],
 			multi: [[200,255,255],[250,150,150],[225,255,128]],
-		}[this.color];
+		};
+        this.colors = this.colorlist[this.colordict[this.color]];
 		this.baseseed = 100;
 		this.draw_card_round = function(x,y,w,ctx){
 			//dims: 10 * 14
@@ -33,7 +35,7 @@ function draw_cards(){
 			ctx.lineTo(x+r, y+h)
 			ctx.arc(x+r, y+h-r, r, q, 2*q);
 			ctx.closePath();
-			ctx.fillStyle = this.color;
+			ctx.fillStyle = this.rgba_builder([...this.colors[0],1]);
 			ctx.fill();
 		}
 		this.rgba_builder = function(rgba){
@@ -73,11 +75,30 @@ function draw_cards(){
 		this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
 	}
 	activecard.update = function(dict){
-		if(dict['kys'].hasOwnProperty(32) && dict['kys'][32] == 0){
+        
+        //make these specialized on_press events
+		if(dict['kys'].hasOwnProperty(39) && dict['kys'][39] == 0){
 			this.baseseed += 1;
 			this.draw_card_square(500,100,300,dict['ctx']);
 			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
 		}
+        if(dict['kys'].hasOwnProperty(37) && dict['kys'][37] == 0){
+			this.baseseed -= 1;
+			this.draw_card_square(500,100,300,dict['ctx']);
+			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
+		}
+        if(dict['kys'].hasOwnProperty(38) && dict['kys'][38] == 0){
+            this.color = (this.color+1)%this.colordict.length;
+            this.colors = this.colorlist[this.colordict[this.color]];
+            this.draw_card_square(500,100,300,dict['ctx']);
+			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
+        }
+        if(dict['kys'].hasOwnProperty(40) && dict['kys'][40] == 0){
+            this.color = (this.color+this.colordict.length-1)%this.colordict.length;
+            this.colors = this.colorlist[this.colordict[this.color]];
+            this.draw_card_square(500,100,300,dict['ctx']);
+			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
+        }  
 	}
 	activecard.draw = function(dict){
 		//draw card rectangle
