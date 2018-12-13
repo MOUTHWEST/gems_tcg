@@ -53,13 +53,11 @@ let gameArea = {
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here
-		this.objects = firststage();
+		this.objects = create_board();
 		
 		window.requestAnimationFrame(gameArea.update);
 		
 		document.onkeydown = function(e) {
-			if(e.keyCode != 116)
-				e.preventDefault();
 			if(! (e.keyCode in gameArea.keys)){
 				gameArea.keys[e.keyCode] = 0;
 			}
