@@ -7,21 +7,25 @@ let gameArea = {
 	canvas : document.getElementById("myc"),
 	objects : [],
 	time : 0,
-	msrefresh : 20,
+	msrefresh : 20, // 20ms per frame at best
 	keys : {},
 	
 	update : function() {
+		// This is run once every {msrefresh} milliseconds, if possible*
+		//   *requestAnimationFrame only runs when active window, all other code finishes, etc.
 		let delta = new Date() - gameArea.time * gameArea.msrefresh;
 		if(delta >= gameArea.msrefresh){
 			gameArea.time = Math.floor(new Date()/gameArea.msrefresh);
 			let dict = {
+				// add more here as seen fit
 				cnv: gameArea.canvas,
 				ctx: gameArea.context,
 				obj: gameArea.objects,
-				kys: gameArea.keys,
+				keys: gameArea.keys,
 			};
 			gameArea.context.clearRect(0, 0, gameArea.canvas.width,gameArea.canvas.height);
 			gameArea.objects.forEach(function(obj){
+				//increment object's livetime, update(), draw() in that order
 				if(obj.livetime == undefined){
 					if(obj.init != undefined)
 						obj.init(dict);
@@ -34,7 +38,7 @@ let gameArea = {
 				obj.livetime += 1;
 			});
 			Object.keys(gameArea.keys).forEach(function(key) {
-				//console.log(key)
+				//increment held keys' times
 				if(key in gameArea.keys){
 					gameArea.keys[key] += 1;
 				}
@@ -48,7 +52,9 @@ let gameArea = {
 		this.canvas.height = 720;
 		this.context = this.canvas.getContext("2d");
 		
+		// Load initial stage objects here
 		this.objects = draw_cards();
+		
 		window.requestAnimationFrame(gameArea.update);
 		
 		document.onkeydown = function(e) {
