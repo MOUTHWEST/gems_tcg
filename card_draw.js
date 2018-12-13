@@ -77,23 +77,23 @@ function draw_cards(){
 	activecard.update = function(dict){
         
         //make these specialized on_press events
-		if(dict['kys'].hasOwnProperty(39) && dict['kys'][39] == 0){
+		if(dict['keys'].hasOwnProperty(39) && dict['keys'][39] == 0){
 			this.baseseed += 1;
 			this.draw_card_square(500,100,300,dict['ctx']);
 			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
 		}
-        if(dict['kys'].hasOwnProperty(37) && dict['kys'][37] == 0){
+        if(dict['keys'].hasOwnProperty(37) && dict['keys'][37] == 0){
 			this.baseseed -= 1;
 			this.draw_card_square(500,100,300,dict['ctx']);
 			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
 		}
-        if(dict['kys'].hasOwnProperty(38) && dict['kys'][38] == 0){
+        if(dict['keys'].hasOwnProperty(38) && dict['keys'][38] == 0){
             this.color = (this.color+1)%this.colordict.length;
             this.colors = this.colorlist[this.colordict[this.color]];
             this.draw_card_square(500,100,300,dict['ctx']);
 			this.bkgd = dict['ctx'].getImageData(500,100,300,300*1.4);
         }
-        if(dict['kys'].hasOwnProperty(40) && dict['kys'][40] == 0){
+        if(dict['keys'].hasOwnProperty(40) && dict['keys'][40] == 0){
             this.color = (this.color+this.colordict.length-1)%this.colordict.length;
             this.colors = this.colorlist[this.colordict[this.color]];
             this.draw_card_square(500,100,300,dict['ctx']);
