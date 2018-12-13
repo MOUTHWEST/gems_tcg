@@ -53,7 +53,7 @@ let gameArea = {
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here
-		this.objects = draw_cards();
+		this.objects = firststage();
 		
 		window.requestAnimationFrame(gameArea.update);
 		
