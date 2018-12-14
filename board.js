@@ -27,7 +27,6 @@ function create_board() {
 				});
 			}
 		}
-		console.log("init");
 	}
 
 	board_container.draw = function(dict) {
