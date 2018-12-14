@@ -3,7 +3,7 @@ function startGame() {
 	console.log("ready");
 }
 
-let gameArea = {
+var gameArea = {
 	canvas : document.getElementById("myc"),
 	objects : [],
 	time : 0,
@@ -83,6 +83,10 @@ let gameArea = {
 		this.canvas.addEventListener('mousemove', function(e){
 			let x = e.offsetX;
 			let y = e.offsetY;
+		}, false);
+
+		this.canvas.addEventListener('click', function(e){
+			gameArea.objects[0].updateColor(e)
 		}, false);
 	}
 };

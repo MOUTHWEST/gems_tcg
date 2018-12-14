@@ -1,5 +1,7 @@
+"use strict";
+
 function create_board() {
-	board_container = {
+	var board_container = {
 		name: "board",
 		board: [],
 		tile_width: 0,
@@ -15,9 +17,9 @@ function create_board() {
 	};
 
 	board_container.init = function(dict) {
-		for (i = 0; i < 5; i++) {
+		for (var i = 0; i < 5; i++) {
 			board_container.board.push([]);
-			for (j = 0; j < 5; j++) {
+			for (var j = 0; j < 5; j++) {
 				board_container.board[i].push({
 					color: 0,
 					x_pos: 0,
@@ -29,11 +31,15 @@ function create_board() {
 	}
 
 	board_container.draw = function(dict) {
-		cnv = dict['cnv'];
-		ctx = dict['ctx'];
+		var cnv = dict['cnv'];
+		var ctx = dict['ctx'];
 
-		width = cnv.width;
-		height = cnv.height;
+		var width = cnv.width;
+		var height = cnv.height;
+
+		var smallest_width;
+		var padding_width;
+		var padding_location;
 
 		if (height < width) {
 			smallest_width = height;
@@ -47,9 +53,14 @@ function create_board() {
 			padding_location = "none"
 		}
 
-		draw_unit = smallest_width / 6; // for lack of a better name
-		outer_borders = draw_unit * 0.3;
-		inner_borders = draw_unit * 0.1;
+		var draw_unit = smallest_width / 6; // for lack of a better name
+		var outer_borders = draw_unit * 0.3;
+		var inner_borders = draw_unit * 0.1;
+
+		var x_pos;
+		var y_pos;
+		var initial_x_pos;
+		var initial_y_pos;
 
 		if (padding_location = "left") {
 			x_pos = outer_borders + padding_width
@@ -64,8 +75,8 @@ function create_board() {
 
 		ctx.fillStyle = "#aaaaaa";
 
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 5; j++) {
+		for (var i = 0; i < 5; i++) {
+			for (var j = 0; j < 5; j++) {
 				ctx.fillRect(x_pos, y_pos, draw_unit, draw_unit);
 				x_pos += draw_unit + inner_borders;
 			}
@@ -75,10 +86,10 @@ function create_board() {
 
 		y_pos = initial_y_pos
 
-		inner_draw_unit = draw_unit - (2 * inner_borders)
+		var inner_draw_unit = draw_unit - (2 * inner_borders)
 
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 5; j++) {
+		for (var i = 0; i < 5; i++) {
+			for (var j = 0; j < 5; j++) {
 				ctx.fillStyle = board_container.color_key[board_container.board[i][j].color];
 				ctx.fillRect(x_pos + inner_borders, y_pos + inner_borders, inner_draw_unit, inner_draw_unit);
 				board_container.board[i][j].x_pos = x_pos
@@ -93,12 +104,11 @@ function create_board() {
 	}
 
 	board_container.updateColor = function(event) {
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 5; j++) {
-				obj = board_container.board[i][j];
+		for (var i = 0; i < 5; i++) {
+			for (var j = 0; j < 5; j++) {
+				var obj = board_container.board[i][j];
 				if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.tile_width)
 					&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.tile_width)) {
-					console.log("Tile: " + String(i + 1) + ", " + String(j + 1))
 					obj.color += 1;
 					if (obj.color > board_container.max_colors) {
 						obj.color = 0;
