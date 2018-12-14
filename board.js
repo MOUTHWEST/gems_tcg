@@ -4,16 +4,20 @@ function create_board() {
 	var board_container = {
 		name: "board",
 		board: [],
+		palette: [],
 		tile_width: 0,
+		palette_width: 0,
 		color_key: {
-			0: "#ffffff", // white (diamond)
-			1: "#0000aa", // blue (sapphire) (no I don't care you can have yellow sapphires)
-			2: "#00aa00", // green (emerald)
-			3: "#ff55ff", // purple (amethyst)
-			4: "#ffaa00", // orange (topaz)
-			5: "#aa0000" // red (ruby) (it's really just a red sapphire...)
+			0: "#ffffff", // background
+			1: "#bfbfbf", // light grey (pearl)
+			2: "#0f52ba ", // blue (sapphire) (no I don't care you can have yellow sapphires)
+			3: "#50c878", // green (emerald)
+			4: "#9966cc", // purple (amethyst)
+			5: "#ffc87c", // orange (topaz)
+			6: "#e0115f" // red (ruby) (it's really just a red sapphire...)
 		},
-		max_colors: 5
+		max_colors: 6,
+		selected_color: 0
 	};
 
 	board_container.init = function(dict) {
@@ -26,6 +30,14 @@ function create_board() {
 					y_pos: 0
 				});
 			}
+		}
+
+		for (var i = 0; i < Object.keys(board_container.color_key).length; i++) {
+			board_container.palette.push({
+				color: i,
+				x_pos: 0,
+				y_pos: 0
+			});
 		}
 	}
 
@@ -100,6 +112,34 @@ function create_board() {
 		}
 
 		board_container.tile_width = inner_draw_unit;
+
+		var palette_width = padding_width / 2;
+		
+		var palette_vertical_spacing = height - (2 * outer_borders);
+		palette_vertical_spacing -= (board_container.max_colors + 1) * palette_width;
+		palette_vertical_spacing /= board_container.max_colors + 2;
+
+		var palette_border = inner_borders / 3
+
+		x_pos = width - (padding_width);
+		y_pos = outer_borders;
+
+		for (var i = 0; i <= board_container.max_colors; i++) {
+			y_pos += palette_vertical_spacing;
+
+			ctx.fillStyle = "#666666"
+			ctx.fillRect(x_pos, y_pos - palette_border, palette_width + 2 * palette_border, palette_width + 2 * palette_border);
+
+			ctx.fillStyle = board_container.color_key[i];
+			ctx.fillRect(x_pos + palette_border, y_pos, palette_width, palette_width);
+
+			board_container.palette[i].x_pos = x_pos
+			board_container.palette[i].y_pos = y_pos
+
+			y_pos += palette_width;
+		}
+
+		board_container.palette_width = palette_width;
 	}
 
 	board_container.updateColor = function(event) {
@@ -108,11 +148,15 @@ function create_board() {
 				var obj = board_container.board[i][j];
 				if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.tile_width)
 					&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.tile_width)) {
-					obj.color += 1;
-					if (obj.color > board_container.max_colors) {
-						obj.color = 0;
-					}
+					obj.color = board_container.selected_color;
 				}
+			}
+		}
+		for (var i = 0; i <= board_container.max_colors; i++) {
+			var obj = board_container.palette[i];
+			if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.palette_width)
+				&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.palette_width)) {
+				board_container.selected_color = board_container.palette[i].color;
 			}
 		}
 	}
