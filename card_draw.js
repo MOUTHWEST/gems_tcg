@@ -40,7 +40,7 @@ function draw_cards(){
 		ctx.fillRect(20,20,460,70);
 		ctx.font = '60px sans-serif';
 		ctx.fillStyle = 'white';
-		ctx.fillText(card.title,20,70,460);
+		ctx.fillText(card.title,25,75,450);
 		
 		//draw grid
 		let mygrid = 'R_R|_*_|_*_|R_R';
@@ -106,7 +106,7 @@ function draw_cards(){
 			let line = '';
 
 			for(let n = 0; n < words.length; n++) {
-				let testLine = line + words[n] + ' ';
+				let testLine = line + words[n];
 				let metrics = context.measureText(testLine);
 				let testWidth = metrics.width;
 				if (testWidth > maxWidth && n > 0) {
@@ -114,7 +114,7 @@ function draw_cards(){
 					line = '';
 					y += lineHeight;
 				} else {
-					line = testLine;
+					line = testLine + ' ';
 				}
 			}
 			context.fillText(line, x, y, maxWidth);
@@ -241,7 +241,7 @@ function draw_cards(){
 		title:'Waning Moonstone',
 		color:'blue',
 		cost:'B_B|_*_|B_B',
-		desc:'Shuffle two (2) cards from your discard pile into your deck, then discard this card.',
+		desc:'Shuffle two cards from your discard pile into your deck, then discard this card.',
 	};
 	card8.init = function(dict){
 		this.image = save_card(this,dict['ctx']);
