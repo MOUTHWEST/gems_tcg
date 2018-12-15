@@ -3,7 +3,7 @@ function startGame() {
 	console.log("ready");
 }
 
-let gameArea = {
+var gameArea = {
 	canvas : document.getElementById("myc"),
 	objects : [],
 	time : 0,
@@ -53,13 +53,11 @@ let gameArea = {
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here
-		this.objects = firststage();
+		this.objects = create_board();
 		
 		window.requestAnimationFrame(gameArea.update);
 		
 		document.onkeydown = function(e) {
-			if(e.keyCode != 116)
-				e.preventDefault();
 			if(! (e.keyCode in gameArea.keys)){
 				gameArea.keys[e.keyCode] = 0;
 			}
@@ -85,6 +83,10 @@ let gameArea = {
 		this.canvas.addEventListener('mousemove', function(e){
 			let x = e.offsetX;
 			let y = e.offsetY;
+		}, false);
+
+		this.canvas.addEventListener('click', function(e){
+			gameArea.objects[0].updateColor(e)
 		}, false);
 	}
 };
