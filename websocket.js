@@ -18,9 +18,9 @@ function initialiseWebSocket(dict) {
 	socket.onmessage = function(event) {
 		var data = event.data;
 		if (data.type == "update") {
-			if (data.type == "tile") {
+			if (data.component == "tile") {
 				gameArea.objects[0].board[data.data.x][data.data.y].color = data.data.color;
-			} else if (data.type == "board") {
+			} else if (data.component == "board") {
 				gameArea.objects[0].board = JSON.parse(data.data);
 			}
 		}

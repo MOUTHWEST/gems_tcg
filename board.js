@@ -147,8 +147,23 @@ function create_board() {
 			for (var j = 0; j < 5; j++) {
 				var obj = board_container.board[i][j];
 				if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.tile_width)
-					&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.tile_width)) {
+				&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.tile_width)) {
 					obj.color = board_container.selected_color;
+
+					var data = {
+						type: "update",
+						component: "tile",
+						data: {
+							x: i,
+							y: j,
+							color: obj.color,
+						}
+					}
+
+					data = JSON.stringify(data);
+
+					gameArea.socket.send(data);
+					
 				}
 			}
 		}
@@ -159,20 +174,6 @@ function create_board() {
 				board_container.selected_color = board_container.palette[i].color;
 			}
 		}
-
-		var data = {
-			type: "update",
-			component: "tile",
-			data: {
-				x: i,
-				y: j,
-				color: obj.color,
-			}
-		}
-
-		data = JSON.stringify(data);
-
-		gameArea.socket.send(data);
 	}
 
 	return board_container;
