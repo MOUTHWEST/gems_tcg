@@ -9,12 +9,15 @@ function initialiseWebSocket(dict) {
 	  console.log('WebSocket Error: ' + error);
 	};
 
-	// Show a connected message when the WebSocket is opened.
+	// When a websocket is opened
 	socket.onopen = function(event) {
-		socket.send("echo");
+		//
 	};
 
-	console.log(socket);
+	// When a message is received
+	socket.onmessage = function(event) {
+		gameArea.objects[0].board = JSON.parse(event.data);
+	}
 
 	return socket;
 }
