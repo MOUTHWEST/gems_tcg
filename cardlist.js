@@ -54,7 +54,6 @@ cardlist = {
 		cost:'*|*',
 		desc:'TEST CARD',},
 };
-
 //console.log(cardlist);
 		
 

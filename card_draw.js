@@ -175,7 +175,7 @@ function draw_cards(){
 				this.toshow--;
 		}
 		if(dict['keys'].hasOwnProperty(39) && dict['keys'][39] == 0){
-			this.toshow++;
+			this.toshow += 100;
 		}
 	};
 		
