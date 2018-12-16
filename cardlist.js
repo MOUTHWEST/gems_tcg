@@ -42,6 +42,8 @@ cardlist = {
 function save_card(card){
 	let cnv2 = document.createElement('canvas');
 	let cnv3 = document.createElement('canvas');
+	cnv3.width = 500;
+	cnv3.height = 700;
 	let ctx = cnv3.getContext('2d');
 	
 	//draw bkgd
@@ -180,4 +182,3 @@ for(let card in Object.keys(cardlist)){
 	cardimages.images[card] = save_card(cardlist[card])[0];
 	cardimages.mini[card] = save_card(cardlist[card])[1];
 };
-console.log(cardimages);
