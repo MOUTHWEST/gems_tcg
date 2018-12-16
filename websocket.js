@@ -16,13 +16,15 @@ function initialiseWebSocket(dict) {
 
 	// When a message is received
 	socket.onmessage = function(event) {
-		var data = event.data;
-		if (data.type == "update") {
-			if (data.component == "tile") {
-				gameArea.objects[0].board[data.data.x][data.data.y].color = data.data.color;
-			} else if (data.component == "board") {
-				gameArea.objects[0].board = JSON.parse(data.data);
+		var payload = JSON.parse(event.data);
+		if (payload.type == "update") {
+			if (payload.component == "tile") {
+				gameArea.objects[0].board[payload.data.x][payload.data.y].color = payload.data.color;
+			} else if (payload.component == "board") {
+				gameArea.objects[0].board = payload.data;
 			}
+		} else {
+			console.warn("Received unknown payload type \"" + payload.type + "\"");
 		}
 	}
 
