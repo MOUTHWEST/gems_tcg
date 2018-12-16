@@ -51,56 +51,33 @@ function create_board() {
 		var width = cnv.width;
 		var height = cnv.height;
 
-		console.log(height);
-
 		var padding_width = (width - height) / 2;
 
 		// Dimensions for tiles and borders
 		var board_border = height / 6 * 0.3;
 		var tile_border = height / 6 * 0.1;
-		var tile_width = height / 6 - tile_border
+		var tile_width = height / 6 - 2 * tile_border;
 
 		var boardAreaHeight = height - 2 * board_border;
 
 		// Initialise x pos to corner of board square (and save that position so we can return to it)
 		var initial_x_pos = board_border + padding_width;
-		var initial_y_pos = board_border;
-		var y_pos = initial_y_pos;
+		var y_pos = board_border;
 		var x_pos = initial_x_pos;
 
-		// Fill the border, which is just a grey square
-		ctx.fillStyle = "#aaaaaa";
-
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 5; j++) {
-				// Draw a square from x_pos, y_pos with dimensions tile_width^2
+				// Fill the border, which is just a grey square
+				ctx.fillStyle = "#aaaaaa";
 				ctx.fillRect(x_pos, y_pos, tile_width + 2 * tile_border, tile_width + 2 * tile_border);
 
-				// Adjust x_pos to start of next square
-				x_pos += tile_width + 3 * tile_border;
-			}
-
-			// Go back to start of the row and move one space down
-			y_pos += tile_width + 3 * tile_border;
-			x_pos = initial_x_pos;
-		}
-
-		// Reset position
-		x_pos = initial_x_pos;
-		y_pos = initial_y_pos
-
-		// Draw tiles over border square
-		for (var i = 0; i < 5; i++) {
-			for (var j = 0; j < 5; j++) {
-				// Selects colour to use from that tile
+				// Selects colour to use from that tile and fills
 				ctx.fillStyle = board_container.color_key[board_container.board[i][j].color];
-
-				// Fills that rectangle
 				ctx.fillRect(x_pos + tile_border, y_pos + tile_border, tile_width, tile_width);
 
 				// Stores the x,y location of the tile
-				board_container.board[i][j].x_pos = x_pos
-				board_container.board[i][j].y_pos = y_pos
+				board_container.board[i][j].x_pos = x_pos + tile_border;
+				board_container.board[i][j].y_pos = y_pos + tile_border;
 
 				// Adjust x_pos to start of next square
 				x_pos += tile_width + 3 * tile_border;
