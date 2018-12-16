@@ -159,7 +159,11 @@ function create_board() {
 				board_container.selected_color = board_container.palette[i].color;
 			}
 		}
+
+		var board_data = JSON.stringify(board_container.board);
+
+		gameArea.socket.send(board_data);
 	}
 
-	return [board_container];
+	return board_container;
 }
