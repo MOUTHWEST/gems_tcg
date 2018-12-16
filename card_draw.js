@@ -2,6 +2,7 @@ function draw_cards(){
 	
 	function save_card(card,ctx){
 		let cnv2 = document.createElement('canvas');
+		
 		//draw bkgd
 		let colorlist = {
 			red: [[255,0,0],[120,0,0],[255,60,60]],
@@ -43,22 +44,15 @@ function draw_cards(){
 		ctx.fillText(card.title,25,75,450);
 		
 		//draw grid
-		let mygrid = 'R_R|_*_|_*_|R_R';
-		
 		ctx.fillStyle = 'rgb(75,50,40)'
-		ctx.fillRect(100-edgewidth/2,100-edgewidth/2,300+edgewidth,300+edgewidth);
+		ctx.fillRect(100-edgewidth/2,130-edgewidth/2,300+edgewidth,300+edgewidth);
 		
-		gridrows = card.cost.split('|');
-		g_h = gridrows.length;
-		g_w = gridrows[0].length;
-		sqsize = 60;
-		//prop_h = g_h*300.0/Math.max(g_h,g_w);
-		//prop_w = g_w*300.0/Math.max(g_h,g_w);
-		prop_h = g_h*sqsize;
-		prop_w = g_w*sqsize;
-		//sqsize = prop_h/g_h;
-		ctx.fillStyle = 'rgb(75,50,40)';
-		ctx.fillRect(250-prop_w/2,250-prop_h/2,prop_w,prop_h);
+		let gridrows = card.cost.split('|');
+		let g_h = gridrows.length;
+		let g_w = gridrows[0].length;
+		let sqsize = 60;
+		let prop_h = g_h*sqsize;
+		let prop_w = g_w*sqsize;
 		
 		let cmap = {
 			'R': [0,0,0,0,0].map(function(x){return 'rgb(' + colorlist.red[x].join(',') + ')'}),
@@ -68,64 +62,61 @@ function draw_cards(){
 			'W': [0,0,0,0,0].map(function(x){return 'rgb(' + colorlist.white[x].join(',') + ')'}),
 			'K': [0,0,0,0,0].map(function(x){return 'rgb(' + colorlist.black[x].join(',') + ')'}),
 			'*': ['rgb(255,100,100)','rgb(0,150,0)','rgb(128,128,255)','rgb(180,180,0)','rgb(210,210,230)'],
-			//'*': [1,2,1,2,0].map(function(x){return 'rgb(' + colorlist.multi[x].join(',') + ')'}),
-			//'*': ['rgb(110,110,110)','rgb(110,110,110)','rgb(110,110,110)','rgb(110,110,110)','rgb(180,180,180)'],
 			'_': ['rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(0,0,0,0)'],
 		};
 		
-		//console.log(cmap.V);
+		let cx = 250;
+		let cy = 280;
 		for(let i = 0; i < gridrows.length; i++){
 			for(let j = 0; j < gridrows[0].length; j++){
-				//console.log(gridrows[i][j][0]);
-				ctx.fillStyle = cmap[gridrows[i][j]][0];
-				ctx.fillRect(sqsize*j + 250-prop_w/2, sqsize*i + 250-prop_h/2, sqsize/2, sqsize/2);
-				ctx.fillStyle = cmap[gridrows[i][j]][1];
-				ctx.fillRect(sqsize*(j+.5) + 250-prop_w/2, sqsize*i + 250-prop_h/2, sqsize/2, sqsize/2);
-				ctx.fillStyle = cmap[gridrows[i][j]][2];
-				ctx.fillRect(sqsize*(j+.5) + 250-prop_w/2, sqsize*(i+.5) + 250-prop_h/2, sqsize/2, sqsize/2);
-				ctx.fillStyle = cmap[gridrows[i][j]][3];
-				ctx.fillRect(sqsize*j + 250-prop_w/2, sqsize*(i+.5) + 250-prop_h/2, sqsize/2, sqsize/2);
-				ctx.fillStyle = cmap[gridrows[i][j]][4];
-				ctx.fillRect(sqsize*(j+.2) + 250-prop_w/2, sqsize*(i+.2) + 250-prop_h/2, sqsize*.6, sqsize*.6);
+				for(let k = 0; k < 5; k++){
+					ctx.fillStyle = cmap[gridrows[i][j]][k];
+					switch(k){
+						case 0:	ctx.fillRect(sqsize*j + cx-prop_w/2, sqsize*i + cy-prop_h/2, sqsize/2, sqsize/2); break;
+						case 1: ctx.fillRect(sqsize*(j+.5) + cx-prop_w/2, sqsize*i + cy-prop_h/2, sqsize/2, sqsize/2); break;
+						case 2:	ctx.fillRect(sqsize*(j+.5) + cx-prop_w/2, sqsize*(i+.5) + cy-prop_h/2, sqsize/2, sqsize/2); break;
+						case 3: ctx.fillRect(sqsize*j + cx-prop_w/2, sqsize*(i+.5) + cy-prop_h/2, sqsize/2, sqsize/2); break;
+						case 4: ctx.fillRect(sqsize*(j+.2) + cx-prop_w/2, sqsize*(i+.2) + cy-prop_h/2, sqsize*.6, sqsize*.6); break;
+					}
+				}
 			}
 		}
 		ctx.fillStyle = 'rgb(75,50,40)';
 		for(let i = 0; i <= gridrows.length; i++)
-			ctx.fillRect(250-prop_w/2, 250-edgewidth/2-prop_h/2 + i*sqsize, prop_w, edgewidth);
+			ctx.fillRect(cx-prop_w/2, cy-edgewidth/2-prop_h/2 + i*sqsize, prop_w, edgewidth);
 		for(let j = 0; j <= gridrows[0].length; j++)
-			ctx.fillRect(250-edgewidth/2-prop_w/2 + j*sqsize, 250-prop_h/2, edgewidth, prop_h);
+			ctx.fillRect(cx-edgewidth/2-prop_w/2 + j*sqsize, cy-prop_h/2, edgewidth, prop_h);
 		
 		//draw description
 		ctx.fillStyle = 'rgba(0,0,0,.7)';
-		ctx.fillRect(20,420,460,260);
+		ctx.fillRect(20,450,460,230);
 		ctx.font = '40px sans-serif';
 		ctx.fillStyle = 'white';
-		let mystring = 'Lorem ipsum dolor sit amet. This is a very long string, designed to experiment with word-wrapping customization implemented in the card-side algorithm. This text may run off the card, but the goal is to see that word wrapping does work.';
-		function wrapText(context, text, x, y, maxWidth, lineHeight) {
-			let words = text.split(' ');
-			let line = '';
-
-			for(let n = 0; n < words.length; n++) {
-				let testLine = line + words[n];
-				let metrics = context.measureText(testLine);
-				let testWidth = metrics.width;
-				if (testWidth > maxWidth && n > 0) {
-					context.fillText(testLine, x, y, maxWidth);
-					line = '';
-					y += lineHeight;
-				} else {
-					line = testLine + ' ';
-				}
+		
+		let maxwidth = 450;
+		let x = 25;
+		let y = 485;
+		let words = card.desc.split(' ');
+		let linepart = '';
+		for(let n = 0; n < words.length; n++){
+			let textline = linepart + words[n];
+			if(ctx.measureText(textline).width > maxwidth && n > 0){
+				ctx.fillText(textline,x,y,maxwidth);
+				linepart = '';
+				y += 40;
+			} else {
+				linepart = textline + ' ';
 			}
-			context.fillText(line, x, y, maxWidth);
 		}
-		wrapText(ctx,card.desc,25,455,450,40);
+		ctx.fillText(linepart,x,y,maxwidth);
 		
+		//save image
 		let imagedata = ctx.getImageData(0,0,500,700);
-		
 		let img = new Image(500,700);
 		
-		//let cnv2 = document.createElement('canvas');
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0,0,500,700);
+		
 		cnv2.width = 500;
 		cnv2.height = 700;
 		let ctx2 = cnv2.getContext('2d');
@@ -133,43 +124,44 @@ function draw_cards(){
 		let imguri = cnv2.toDataURL('image/png');
 		img.src = imguri;
 		
-		ctx.fillStyle = 'black';
-		ctx.fillRect(0,0,500,700);
-		return img;
+		cnv2.height = 110;
+		ctx2.putImageData(imagedata,0,0);
+		let imguri2 = cnv2.toDataURL('image/png');
+		let img2 = new Image(500,110);
+		img2.src = imguri2;
+		
+		return [img,img2];
 	}
 	
-	let testreader = {name:'reader'};
-	testreader.init = function(dict){
-		this.images = {};
+	let cardlisting = {name:'cardlisting'};
+	cardlisting.init = function(dict){
+		/*this.images = {};
+		this.mini = {};
 		for(let card in Object.keys(cardlist)){
-			//console.log(cardlist[card]);
-			this.images[card] = save_card(cardlist[card],dict['ctx']);
-		}
+			this.images[card] = save_card(cardlist[card],dict['ctx'])[0];
+			this.mini[card] = save_card(cardlist[card],dict['ctx'])[1];
+		}*/
 		this.toshow = Object.keys(cardlist).length;
 		this.cl = this.toshow;
 	};
-	testreader.draw = function(dict){
+	cardlisting.draw = function(dict){
 		let w = 1;
 		let h = 0;
-		let tw = 900.0;
+		let tw = 1280.0;
 		let th = 720.0;
 		while(w*h < this.toshow){
 			w += 1;
-			//let cw = tw/w;
-			//let ch = cw*1.4;
 			h = Math.floor(th*w/(tw*1.4));
-			//console.log(h);
 		}
-		//console.log(w,h);
 		for(let card = 0; card < this.toshow; card++){
-			dict['ctx'].drawImage(this.images[card%this.cl],
-							(tw/w)*(card%w),
-							(th/h)*Math.floor(card/w),
-							tw/w,
-							tw*1.4/w);
+			dict['ctx'].drawImage(cardimages.images[card%this.cl],
+							(tw/w)*(card%w + .05),
+							(th/h)*(Math.floor(card/w) + .05),
+							tw/w * .9,
+							tw*1.4/w * .9);
 		}
 	};
-	testreader.update = function(dict){
+	cardlisting.update = function(dict){
 		if(dict['keys'].hasOwnProperty(37) && dict['keys'][37] == 0){
 			if(this.toshow > 1)
 				this.toshow--;
@@ -179,135 +171,8 @@ function draw_cards(){
 		}
 	};
 		
-	
-	
-	let card1 = {
-		name:'card1',
-		title:'Red Garnet Shard',
-		color:'red',
-		cost:'R|R',
-		desc:'Move any stone on the board one block away from you.',
-	};
-	card1.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card1.draw = function(dict){
-		dict['ctx'].drawImage(this.image,20,40,200,280);
-	}
-	
-	let card2 = {
-		name:'card2',
-		title:'Almandine Charm',
-		color:'red',
-		cost:'RR|**|RR',
-		desc:'Return a card in your discard pile to your hand.',
-	};
-	card2.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card2.draw = function(dict){
-		dict['ctx'].drawImage(this.image,240,40,200,280);
-	}
-	
-	let card3 = {
-		name:'card3',
-		title:'Ruby Necklace',
-		color:'red',
-		cost:'R_R|R_R',
-		desc:'Move any stone on the board either left or right by one block.',
-	};
-	card3.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card3.draw = function(dict){
-		dict['ctx'].drawImage(this.image,460,40,200,280);
-	}
-	
-	let card4 = {
-		name:'card4',
-		title:'Burning Agate',
-		color:'red',
-		cost:'_R_|*R*|_R_',
-		desc:'Remove any stone from the board, then discard this card.',
-	};
-	card4.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card4.draw = function(dict){
-		dict['ctx'].drawImage(this.image,680,40,200,280);
-	}
-	
-	let card5 = {
-		name:'card5',
-		title:'Blue Topaz Shard',
-		color:'blue',
-		cost:'B|B',
-		desc:'Move a BLUE stone directly behind another BLUE stone on the board.',
-	};
-	card5.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card5.draw = function(dict){
-		dict['ctx'].drawImage(this.image,20,360,200,280);
-	}
-	
-	let card6 = {
-		name:'card6',
-		title:'Iolite Charm',
-		color:'blue',
-		cost:'***|BBB',
-		desc:'Remove a BLUE stone used to cast this card, then draw a card.',
-	};
-	card6.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card6.draw = function(dict){
-		dict['ctx'].drawImage(this.image,240,360,200,280);
-	}
-	
-	let card7 = {
-		name:'card7',
-		title:'Sapphire Slicer',
-		color:'blue',
-		cost:'B*|*B|B*',
-		desc:'Discard two of your cards on the table, then remove any stone from the board.',
-	};
-	card7.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card7.draw = function(dict){
-		dict['ctx'].drawImage(this.image,460,360,200,280);
-	}
-	
-	let card8 = {
-		name:'card8',
-		title:'Waning Moonstone',
-		color:'blue',
-		cost:'B_B|_*_|B_B',
-		desc:'Shuffle two cards from your discard pile into your deck, then discard this card.',
-	};
-	card8.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card8.draw = function(dict){
-		dict['ctx'].drawImage(this.image,680,360,200,280);
-	}
-	
-	let card9 = {
-		name:'card9',
-		title:'Kyanite Flash',
-		color:'blue',
-		cost:'_B_|***|_B_',
-		desc:'Remove the three any-color stones used to cast this card from the board.',
-	};
-	card9.init = function(dict){
-		this.image = save_card(this,dict['ctx']);
-	};
-	card9.draw = function(dict){
-		dict['ctx'].drawImage(this.image,225,45,450,630);
-	}
-	
 	// OUTDATED
+	/*
 	let activecard = {name:'activecard'};
 	activecard.init = function(dict){
         this.colordict = ['red','pink','white','gray','black','bronze','orange','yellow','green','aqua','blue','violet','multi'];
@@ -418,6 +283,6 @@ function draw_cards(){
 		dict['ctx'].font = '100px monospace';
 		dict['ctx'].fillText(this.baseseed, 630,600);
 	}
-	
-	return [testreader/*,card1,card2,card3,card4,card5,card6,card7,card8*/];
+	*/
+	return [cardlisting/*,card1,card2,card3,card4,card5,card6,card7,card8*/];
 }
