@@ -48,8 +48,8 @@ var gameArea = {
 	},
 	
 	start : function(){
-		this.canvas.width = 900;
-		this.canvas.height = 720;
+		this.canvas.width = document.body.clientWidth
+		this.canvas.height = document.body.clientHeight
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here

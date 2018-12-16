@@ -42,104 +42,99 @@ function create_board() {
 	}
 
 	board_container.draw = function(dict) {
+		// The dict contains the key DOM elements
+		// cnv = canvas
+		// ctx = context
 		var cnv = dict['cnv'];
 		var ctx = dict['ctx'];
 
 		var width = cnv.width;
 		var height = cnv.height;
 
-		var smallest_width;
-		var padding_width;
-		var padding_location;
+		console.log(height);
 
-		if (height < width) {
-			smallest_width = height;
-			padding_width = (width - smallest_width) / 2;
-			padding_location = "left";
-		} else if (width < height) {
-			smallest_width = width;
-			padding_width = (width - smallest_width) / 2;
-			padding_location = "top";
-		} else {
-			padding_location = "none"
-		}
+		var padding_width = (width - height) / 2;
 
-		var draw_unit = smallest_width / 6; // for lack of a better name
-		var outer_borders = draw_unit * 0.3;
-		var inner_borders = draw_unit * 0.1;
+		// Dimensions for tiles and borders
+		var board_border = height / 6 * 0.3;
+		var tile_border = height / 6 * 0.1;
+		var tile_width = height / 6 - tile_border
 
-		var x_pos;
-		var y_pos;
-		var initial_x_pos;
-		var initial_y_pos;
+		var boardAreaHeight = height - 2 * board_border;
 
-		if (padding_location = "left") {
-			x_pos = outer_borders + padding_width
-			y_pos = outer_borders
-		} else if (padding_location = "top") {
-			x_pos = outer_borders + padding_width
-			y_pos = outer_borders
-		}
+		// Initialise x pos to corner of board square (and save that position so we can return to it)
+		var initial_x_pos = board_border + padding_width;
+		var initial_y_pos = board_border;
+		var y_pos = initial_y_pos;
+		var x_pos = initial_x_pos;
 
-		initial_x_pos = x_pos;
-		initial_y_pos = y_pos;
-
+		// Fill the border, which is just a grey square
 		ctx.fillStyle = "#aaaaaa";
 
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 5; j++) {
-				ctx.fillRect(x_pos, y_pos, draw_unit, draw_unit);
-				x_pos += draw_unit + inner_borders;
+				// Draw a square from x_pos, y_pos with dimensions tile_width^2
+				ctx.fillRect(x_pos, y_pos, tile_width + 2 * tile_border, tile_width + 2 * tile_border);
+
+				// Adjust x_pos to start of next square
+				x_pos += tile_width + 3 * tile_border;
 			}
-			y_pos += draw_unit + inner_borders;
+
+			// Go back to start of the row and move one space down
+			y_pos += tile_width + 3 * tile_border;
 			x_pos = initial_x_pos;
 		}
 
+		// Reset position
+		x_pos = initial_x_pos;
 		y_pos = initial_y_pos
 
-		var inner_draw_unit = draw_unit - (2 * inner_borders)
-
+		// Draw tiles over border square
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 5; j++) {
+				// Selects colour to use from that tile
 				ctx.fillStyle = board_container.color_key[board_container.board[i][j].color];
-				ctx.fillRect(x_pos + inner_borders, y_pos + inner_borders, inner_draw_unit, inner_draw_unit);
+
+				// Fills that rectangle
+				ctx.fillRect(x_pos + tile_border, y_pos + tile_border, tile_width, tile_width);
+
+				// Stores the x,y location of the tile
 				board_container.board[i][j].x_pos = x_pos
 				board_container.board[i][j].y_pos = y_pos
-				x_pos += draw_unit + inner_borders;
+
+				// Adjust x_pos to start of next square
+				x_pos += tile_width + 3 * tile_border;
 			}
-			y_pos += draw_unit + inner_borders;
+
+			// Go back to start of the row and move one space down
+			y_pos += tile_width + 3 * tile_border;
 			x_pos = initial_x_pos;
 		}
 
-		board_container.tile_width = inner_draw_unit;
+		board_container.tile_width = tile_width;
 
-		var palette_width = padding_width / 2;
+		// var palette_width = padding_width / 2;
+		// var palette_border = tile_border / 3
 		
-		var palette_vertical_spacing = height - (2 * outer_borders);
-		palette_vertical_spacing -= (board_container.max_colors + 1) * palette_width;
-		palette_vertical_spacing /= board_container.max_colors + 2;
+		// var palette_vertical_spacing = determine_spacing(boardAreaHeight, palette_width, palette_border, board_container.max_colors + 1);
 
-		var palette_border = inner_borders / 3
+		// x_pos = width - (padding_width);
+		// y_pos = board_border;
 
-		x_pos = width - (padding_width);
-		y_pos = outer_borders;
+		// for (var i = 0; i <= board_container.max_colors; i++) {
+		// 	y_pos += palette_vertical_spacing;
 
-		for (var i = 0; i <= board_container.max_colors; i++) {
-			y_pos += palette_vertical_spacing;
+		// 	ctx.fillStyle = "#666666"
+		// 	ctx.fillRect(x_pos, y_pos, palette_width + 2 * palette_border, palette_width + 2 * palette_border);
 
-			ctx.fillStyle = "#666666"
-			ctx.fillRect(x_pos, y_pos - palette_border, palette_width + 2 * palette_border, palette_width + 2 * palette_border);
+		// 	ctx.fillStyle = board_container.color_key[i];
+		// 	ctx.fillRect(x_pos + palette_border, y_pos + palette_border, palette_width, palette_width);
 
-			ctx.fillStyle = board_container.color_key[i];
-			ctx.fillRect(x_pos + palette_border, y_pos, palette_width, palette_width);
+		// 	board_container.palette[i].x_pos = x_pos
+		// 	board_container.palette[i].y_pos = y_pos
 
-			board_container.palette[i].x_pos = x_pos
-			board_container.palette[i].y_pos = y_pos
-
-			y_pos += palette_width;
-		}
-
-		board_container.palette_width = palette_width;
+		// 	y_pos += palette_width + 2 * palette_border;
+		// }
 	}
 
 	board_container.updateColor = function(event) {
@@ -169,12 +164,28 @@ function create_board() {
 		}
 		for (var i = 0; i <= board_container.max_colors; i++) {
 			var obj = board_container.palette[i];
-			if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.palette_width)
-				&& obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.palette_width)) {
+			if (obj.x_pos <= event.offsetX && event.offsetX <= (obj.x_pos + board_container.palette_width)) {
+				console.log("X region hit")
+			}
+			if (obj.y_pos <= event.offsetY && event.offsetY <= (obj.y_pos + board_container.palette_width)) {
+				console.log("Y region hit")
 				board_container.selected_color = board_container.palette[i].color;
+				console.log(board_container.selected_color);
 			}
 		}
+
+		console.log(String(event.offsetX) + ", " + String(event.offsetY));
+		console.log(board_container.palette);
 	}
 
 	return board_container;
+}
+
+function determine_spacing(area_width, tile_width, border_width, tile_count) {
+	var spacing = area_width;
+	spacing -= tile_count * tile_width;
+	spacing -= border_width * tile_count * 2;
+	spacing /= tile_count + 1;
+
+	return spacing;
 }
