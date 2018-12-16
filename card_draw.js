@@ -7,7 +7,7 @@ function draw_cards(){
 			red: [[255,0,0],[120,0,0],[255,60,60]],
 			pink: [[255,160,160],[200,60,120],[255,190,190]],
 			white: [[240,240,240],[150,150,170],[255,255,255]],
-			gray: [[130,130,130],[70,70,70],[200,200,170]],
+			silver: [[130,130,130],[70,70,70],[200,200,170]],
 			black: [[10,10,30],[0,0,0],[60,30,20]],
 			bronze: [[130,100,50],[80,30,30],[180,130,60]],
 			orange: [[200,130,20],[130,80,0],[255,100,70]],
@@ -137,6 +137,48 @@ function draw_cards(){
 		ctx.fillRect(0,0,500,700);
 		return img;
 	}
+	
+	let testreader = {name:'reader'};
+	testreader.init = function(dict){
+		this.images = {};
+		for(let card in Object.keys(cardlist)){
+			//console.log(cardlist[card]);
+			this.images[card] = save_card(cardlist[card],dict['ctx']);
+		}
+		this.toshow = Object.keys(cardlist).length;
+		this.cl = this.toshow;
+	};
+	testreader.draw = function(dict){
+		let w = 1;
+		let h = 0;
+		let tw = 900.0;
+		let th = 720.0;
+		while(w*h < this.toshow){
+			w += 1;
+			//let cw = tw/w;
+			//let ch = cw*1.4;
+			h = Math.floor(th*w/(tw*1.4));
+			//console.log(h);
+		}
+		//console.log(w,h);
+		for(let card = 0; card < this.toshow; card++){
+			dict['ctx'].drawImage(this.images[card%this.cl],
+							(tw/w)*(card%w),
+							(th/h)*Math.floor(card/w),
+							tw/w,
+							tw*1.4/w);
+		}
+	};
+	testreader.update = function(dict){
+		if(dict['keys'].hasOwnProperty(37) && dict['keys'][37] == 0){
+			this.toshow--;
+		}
+		if(dict['keys'].hasOwnProperty(39) && dict['keys'][39] == 0){
+			this.toshow++;
+		}
+	};
+		
+	
 	
 	let card1 = {
 		name:'card1',
@@ -376,5 +418,5 @@ function draw_cards(){
 		dict['ctx'].fillText(this.baseseed, 630,600);
 	}
 	
-	return [card1,card2,card3,card4,card5,card6,card7,card8];
+	return [testreader/*,card1,card2,card3,card4,card5,card6,card7,card8*/];
 }
