@@ -170,7 +170,7 @@ function draw_cards(){
 		name:'card3',
 		title:'Ruby Necklace',
 		color:'red',
-		cost:'R*R|R*R',
+		cost:'R_R|R_R',
 		desc:'Move any stone on the board either left or right by one block.',
 	};
 	card3.init = function(dict){
@@ -184,7 +184,7 @@ function draw_cards(){
 		name:'card4',
 		title:'Burning Agate',
 		color:'red',
-		cost:'*R*|*R*|*R*',
+		cost:'_R_|*R*|_R_',
 		desc:'Remove any stone from the board, then discard this card.',
 	};
 	card4.init = function(dict){
@@ -199,7 +199,7 @@ function draw_cards(){
 		title:'Blue Topaz Shard',
 		color:'blue',
 		cost:'B|B',
-		desc:'Place a BLUE stone behind an existing blue stone on the board.',
+		desc:'Move a BLUE stone directly behind another BLUE stone on the board.',
 	};
 	card5.init = function(dict){
 		this.image = save_card(this,dict['ctx']);
@@ -213,7 +213,7 @@ function draw_cards(){
 		title:'Iolite Charm',
 		color:'blue',
 		cost:'***|BBB',
-		desc:'Draw a card.',
+		desc:'Remove a BLUE stone used to cast this card, then draw a card.',
 	};
 	card6.init = function(dict){
 		this.image = save_card(this,dict['ctx']);
@@ -248,6 +248,20 @@ function draw_cards(){
 	};
 	card8.draw = function(dict){
 		dict['ctx'].drawImage(this.image,680,360,200,280);
+	}
+	
+	let card9 = {
+		name:'card9',
+		title:'Kyanite Flash',
+		color:'blue',
+		cost:'_B_|***|_B_',
+		desc:'Remove the three any-color stones used to cast this card from the board.',
+	};
+	card9.init = function(dict){
+		this.image = save_card(this,dict['ctx']);
+	};
+	card9.draw = function(dict){
+		dict['ctx'].drawImage(this.image,225,45,450,630);
 	}
 	
 	// OUTDATED
