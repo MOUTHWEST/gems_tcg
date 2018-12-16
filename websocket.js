@@ -2,7 +2,7 @@
 
 function initialiseWebSocket(dict) {
 	// Create a new WebSocket.
-	var socket = new WebSocket('ws://35.182.156.146:8080');
+	var socket = new WebSocket("ws://35.182.156.146:8080", "echo-protocol");
 
 	// Handle any errors that occur.
 	socket.onerror = function(error) {
