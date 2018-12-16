@@ -53,7 +53,9 @@ var gameArea = {
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here
-		this.objects = create_board();
+		this.objects = [create_board()];
+
+		this.socket = initialiseWebSocket();
 		
 		window.requestAnimationFrame(gameArea.update);
 		
