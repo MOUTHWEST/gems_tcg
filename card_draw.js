@@ -171,7 +171,8 @@ function draw_cards(){
 	};
 	testreader.update = function(dict){
 		if(dict['keys'].hasOwnProperty(37) && dict['keys'][37] == 0){
-			this.toshow--;
+			if(this.toshow > 1)
+				this.toshow--;
 		}
 		if(dict['keys'].hasOwnProperty(39) && dict['keys'][39] == 0){
 			this.toshow++;
