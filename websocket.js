@@ -16,7 +16,14 @@ function initialiseWebSocket(dict) {
 
 	// When a message is received
 	socket.onmessage = function(event) {
-		gameArea.objects[0].board = JSON.parse(event.data);
+		var data = event.data;
+		if (data.type == "update") {
+			if (data.type == "tile") {
+				gameArea.objects[0].board[data.data.x][data.data.y].color = data.data.color;
+			} else if (data.type == "board") {
+				gameArea.objects[0].board = JSON.parse(data.data);
+			}
+		}
 	}
 
 	return socket;

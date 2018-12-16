@@ -160,9 +160,19 @@ function create_board() {
 			}
 		}
 
-		var board_data = JSON.stringify(board_container.board);
+		var data = {
+			type: "update",
+			component: "tile",
+			data: {
+				x: i,
+				y: j,
+				color: obj.color,
+			}
+		}
 
-		gameArea.socket.send(board_data);
+		data = JSON.stringify(data);
+
+		gameArea.socket.send(data);
 	}
 
 	return board_container;
