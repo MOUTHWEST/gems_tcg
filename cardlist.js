@@ -51,8 +51,8 @@ cardlist = {
 		desc:'Remove the two any-color stones used to cast this card from the board.',},
 	12:{title:'Demantoid Spire',
 		color:'green',
-		cost:'GG|GG|GG|GG',
-		desc:'Move a green stone used to cast this card to another available block on the board.',},
+		cost:'GG|GG|GG',
+		desc:'Swap a green stone used to cast this card with a non-green stone on the board.',},
 };
 
 function save_card(card){
