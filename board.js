@@ -42,13 +42,11 @@ function create_board() {
 
 	board_container.draw = function(dict) {
 		// The dict contains the key DOM elements
-		// cnv = canvas
-		// ctx = context
-		var cnv = dict['cnv'];
+		// cnv = canvas, ctx = context
 		var ctx = dict['ctx'];
 
-		var width = cnv.width;
-		var height = cnv.height;
+		var width = gameArea.objects.ui.boardHeight;
+		var height = gameArea.objects.ui.boardWidth;
 
 		var padding_width = (width - height) / 2;
 
