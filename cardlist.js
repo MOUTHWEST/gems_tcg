@@ -37,6 +37,22 @@ cardlist = {
 		color:'blue',
 		cost:'_B_|***|_B_',
 		desc:'Remove the three any-color stones used to cast this card from the board.',},
+	9:{title:'Green Tourmaline Shard',
+		color:'green',
+		cost:'G|G',
+		desc:'TBD',},
+	10:{title:'Green Tourmaline Shard',
+		color:'green',
+		cost:'G|G',
+		desc:'TBD',},
+	11:{title:'Green Tourmaline Shard',
+		color:'green',
+		cost:'G|G',
+		desc:'TBD',},
+	12:{title:'Green Tourmaline Shard',
+		color:'green',
+		cost:'G|G',
+		desc:'TBD',},
 };
 
 function save_card(card){
