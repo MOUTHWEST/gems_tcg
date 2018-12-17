@@ -6,7 +6,7 @@ function draw_cards(){
 	cardlisting.init = function(dict){
 		this.toshow = Object.keys(cardlist).length;
 		this.cl = this.toshow;
-		this.tw = 1280.0;
+		this.tw = 720.0;
 		this.th = 720.0;
 		this.ox = 0;
 		this.oy = 0;
