@@ -16,6 +16,7 @@ var gameArea = {
 		let delta = new Date() - gameArea.time * gameArea.msrefresh;
 		if(delta >= gameArea.msrefresh){
 			gameArea.time = Math.floor(new Date()/gameArea.msrefresh);
+
 			let dict = {
 				// add more here as seen fit
 				cnv: gameArea.canvas,
@@ -23,20 +24,46 @@ var gameArea = {
 				obj: gameArea.objects,
 				keys: gameArea.keys,
 			};
+
 			gameArea.context.clearRect(0, 0, gameArea.canvas.width,gameArea.canvas.height);
-			gameArea.objects.forEach(function(obj){
-				//increment object's livetime, update(), draw() in that order
-				if(obj.livetime == undefined){
-					if(obj.init != undefined)
-						obj.init(dict);
-					obj.livetime = 0;
+
+			for (var key in gameArea.objects) {
+				// skip loop if the property is from prototype
+				if (!gameArea.objects.hasOwnProperty(key)) continue;
+
+				var obj = gameArea.objects[key];
+				for (var prop in obj) {
+					// skip loop if the property is from prototype
+					if(!obj.hasOwnProperty(prop)) continue;
+
+					// your code
+					if(obj.livetime == undefined){
+						if(obj.init != undefined)
+							obj.init(dict);
+						obj.livetime = 0;
+					}
+					if(obj.update != undefined)
+						obj.update(dict);
+					if(obj.draw != undefined)
+						obj.draw(dict);
+					obj.livetime += 1;
 				}
-				if(obj.update != undefined)
-					obj.update(dict);
-				if(obj.draw != undefined)
-					obj.draw(dict);
-				obj.livetime += 1;
-			});
+			}
+
+			// gameArea.objects.forEach(function(obj){
+			// 	//increment object's livetime, update(), draw() in that order
+			// 	if(obj.livetime == undefined){
+			// 		if(obj.init != undefined)
+			// 			obj.init(dict);
+			// 		obj.livetime = 0;
+			// 	}
+			// 	if(obj.update != undefined)
+			// 		obj.update(dict);
+			// 	if(obj.draw != undefined)
+			// 		obj.draw(dict);
+			// 	obj.livetime += 1;
+			// });
+
 			Object.keys(gameArea.keys).forEach(function(key) {
 				//increment held keys' times
 				if(key in gameArea.keys){
@@ -53,20 +80,23 @@ var gameArea = {
 		this.context = this.canvas.getContext("2d");
 		
 		// Load initial stage objects here
-		this.objects = [create_board()];
+		this.objects = {
+			"ui": create_ui_controller(),
+			"board": create_board()
+		};
 
 		this.socket = initialiseWebSocket();
 		
 		window.requestAnimationFrame(gameArea.update);
 		
 		document.onkeydown = function(e) {
-			if(! (e.keyCode in gameArea.keys)){
+			if (!(e.keyCode in gameArea.keys)){
 				gameArea.keys[e.keyCode] = 0;
 			}
 		}
 		
 		document.onkeyup = function(e) {
-			if(gameArea.keys.hasOwnProperty(e.keyCode)){
+			if (gameArea.keys.hasOwnProperty(e.keyCode)){
 				delete gameArea.keys[e.keyCode];
 			}
 		}
@@ -88,7 +118,7 @@ var gameArea = {
 		}, false);
 
 		this.canvas.addEventListener('click', function(e){
-			gameArea.objects[0].updateColor(e)
+			gameArea.objects["board"].updateColor(e)
 		}, false);
 	}
 };

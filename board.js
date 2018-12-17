@@ -2,7 +2,6 @@
 
 function create_board() {
 	var board_container = {
-		name: "board",
 		board: [],
 		palette: [],
 		tile_width: 0,
@@ -150,9 +149,6 @@ function create_board() {
 				console.log(board_container.selected_color);
 			}
 		}
-
-		console.log(String(event.offsetX) + ", " + String(event.offsetY));
-		console.log(board_container.palette);
 	}
 
 	return board_container;
