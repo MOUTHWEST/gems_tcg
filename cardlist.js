@@ -45,14 +45,14 @@ cardlist = {
 		color:'green',
 		cost:'G*G',
 		desc:'Remove the any-color stone used to cast this card from the board.',},
-	11:{title:'Green Tourmaline Shard',
+	11:{title:'Emerald Flash',
 		color:'green',
-		cost:'G|G',
-		desc:'TBD',},
-	12:{title:'Green Tourmaline Shard',
+		cost:'_*_|GGG|_*_',
+		desc:'Remove the two any-color stones used to cast this card from the board.',},
+	12:{title:'Demantoid Spire',
 		color:'green',
-		cost:'G|G',
-		desc:'TBD',},
+		cost:'GG|GG|GG|GG',
+		desc:'Move a green stone used to cast this card to another available block on the board.',},
 };
 
 function save_card(card){
