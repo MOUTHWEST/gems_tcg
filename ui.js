@@ -7,8 +7,8 @@ function create_ui_controller() {
 		this.height = dict["cnv"].height;
 		this.width = dict["cnv"].width;
 
-		this.boardHeight = 0.3 * this.height;
-		this.boardWidth = 0.3 * this.width;
+		this.boardHeight = 1 * this.height;
+		this.boardWidth = 1 * this.width;
 	}
 
 	return ui_controller;
