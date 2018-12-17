@@ -52,7 +52,7 @@ cardlist = {
 	12:{title:'Demantoid Spire',
 		color:'green',
 		cost:'GG|GG|GG',
-		desc:'Swap a green stone used to cast this card with a non-green stone on the board.',},
+		desc:'Swap a green stone used to cast this card with a non-green stone on the board, then discard this card.',},
 };
 
 function save_card(card){
