@@ -19,13 +19,13 @@ function initialiseWebSocket(dict) {
 		var payload = JSON.parse(event.data);
 		if (payload.type == "update") {
 			if (payload.component == "tile") {
-				gameArea.objects["board"].board[payload.data.x][payload.data.y].color = payload.data.color;
+				gameArea.objects[0].board[payload.data.x][payload.data.y].color = payload.data.color;
 			} else if (payload.component == "board") {
-				gameArea.objects["board"].board = payload.data;
+				gameArea.objects[0].board = payload.data;
 			}
 		} else if (payload.type == "initialise") {
 			if (payload.component == "board") {
-				gameArea.objects["board"].board = payload.data;
+				gameArea.objects[0].board = payload.data;
 			}
 		} else {
 			console.warn("Received unknown payload type \"" + payload.type + "\"");
