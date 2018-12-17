@@ -8,8 +8,8 @@ function create_board() {
 		tile_width: 0,
 		palette_width: 0,
 		color_key: {
-			0: "#ffffff", // background
-			1: "#bfbfbf", // light grey (pearl)
+			0: "#bfbfbf", // background
+			1: "#ffffff", // white (pearl)
 			2: "#0f52ba ", // blue (sapphire) (no I don't care you can have yellow sapphires)
 			3: "#50c878", // green (emerald)
 			4: "#9966cc", // purple (amethyst)
