@@ -45,8 +45,12 @@ function create_board() {
 		// cnv = canvas, ctx = context
 		var ctx = dict['ctx'];
 
-		var width = gameArea.objects.ui.boardHeight;
-		var height = gameArea.objects.ui.boardWidth;
+		var width = gameArea.objects.ui.boardWidth;
+		var height = gameArea.objects.ui.boardHeight;
+
+		// Indicates area occupied by the board
+		ctx.fillStyle = "#d1ffd7";
+		ctx.fillRect(0, 0, width, height);
 
 		var padding_width = (width - height) / 2;
 
