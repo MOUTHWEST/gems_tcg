@@ -27,6 +27,10 @@ function initialiseWebSocket(dict) {
 			if (payload.component == "board") {
 				gameArea.objects["board"].board = payload.data;
 			}
+		} else if (payload.type == "initialise") {
+			if (payload.component == "board") {
+				gameArea.objects[0].board = payload.data;
+			}
 		} else {
 			console.warn("Received unknown payload type \"" + payload.type + "\"");
 		}
