@@ -25,44 +25,30 @@ var gameArea = {
 				keys: gameArea.keys,
 			};
 
-			gameArea.context.clearRect(0, 0, gameArea.canvas.width,gameArea.canvas.height);
+			// gameArea.context.clearRect(0, 0, gameArea.canvas.width,gameArea.canvas.height);
 
-			for (var key in gameArea.objects) {
-				// skip loop if the property is from prototype
-				if (!gameArea.objects.hasOwnProperty(key)) continue;
+			// for (var key in gameArea.objects) {
+			// 	// skip loop if the property is from prototype
+			// 	if (!gameArea.objects.hasOwnProperty(key)) continue;
 
-				var obj = gameArea.objects[key];
-				for (var prop in obj) {
-					// skip loop if the property is from prototype
-					if(!obj.hasOwnProperty(prop)) continue;
+			// 	var obj = gameArea.objects[key];
+			// 	for (var prop in obj) {
+			// 		// skip loop if the property is from prototype
+			// 		if(!obj.hasOwnProperty(prop)) continue;
 
-					// your code
-					if(obj.livetime == undefined){
-						if(obj.init != undefined)
-							obj.init(dict);
-						obj.livetime = 0;
-					}
-					if(obj.update != undefined)
-						obj.update(dict);
-					if(obj.draw != undefined)
-						obj.draw(dict);
-					obj.livetime += 1;
-				}
-			}
-
-			// gameArea.objects.forEach(function(obj){
-			// 	//increment object's livetime, update(), draw() in that order
-			// 	if(obj.livetime == undefined){
-			// 		if(obj.init != undefined)
-			// 			obj.init(dict);
-			// 		obj.livetime = 0;
+			// 		// your code
+			// 		if(obj.livetime == undefined){
+			// 			if(obj.init != undefined)
+			// 				obj.init(dict);
+			// 			obj.livetime = 0;
+			// 		}
+			// 		if(obj.update != undefined)
+			// 			obj.update(dict);
+			// 		if(obj.draw != undefined)
+			// 			obj.draw(dict);
+			// 		obj.livetime += 1;
 			// 	}
-			// 	if(obj.update != undefined)
-			// 		obj.update(dict);
-			// 	if(obj.draw != undefined)
-			// 		obj.draw(dict);
-			// 	obj.livetime += 1;
-			// });
+			// }
 
 			Object.keys(gameArea.keys).forEach(function(key) {
 				//increment held keys' times
@@ -82,7 +68,8 @@ var gameArea = {
 		// Load initial stage objects here
 		this.objects = {
 			"ui": create_ui_controller(),
-			"board": create_board()
+			"board": create_board(),
+			"palette": create_palette()
 		};
 
 		this.socket = initialiseWebSocket();

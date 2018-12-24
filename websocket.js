@@ -6,7 +6,7 @@ function initialiseWebSocket(dict) {
 
 	// Handle any errors that occur.
 	socket.onerror = function(error) {
-	  console.log('WebSocket Error: ' + error);
+	  //
 	};
 
 	// When a websocket is opened
